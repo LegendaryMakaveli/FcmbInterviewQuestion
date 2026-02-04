@@ -41,8 +41,8 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/listings/**").permitAll()
-                        .requestMatchers("/admin/**").permitAll()
+                        .requestMatchers("/bvn/**").permitAll()
+                        .requestMatchers("/nin/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);

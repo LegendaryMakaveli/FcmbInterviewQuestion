@@ -6,6 +6,8 @@ import lombok.Data;
 
 @Data
 public class RegisterUserRequest {
+    private String bvn;
+    private String nin;
     private String firstName;
     private String lastName;
     private String address;
@@ -13,4 +15,5 @@ public class RegisterUserRequest {
     private String email;
     private AccountType accountType;
     private String password;
+    private String TransactionPin;
 }

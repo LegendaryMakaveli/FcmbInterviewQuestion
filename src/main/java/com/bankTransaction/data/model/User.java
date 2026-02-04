@@ -13,6 +13,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
+
     @Column(nullable = false, unique = true)
     private String bvn;
 
@@ -24,7 +43,7 @@ public class User {
     private Role role;
 
     @Column(nullable = false)
-    private BigDecimal balance = BigDecimal.ZERO;
+    private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

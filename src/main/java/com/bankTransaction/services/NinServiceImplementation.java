@@ -1,9 +1,9 @@
 package com.bankTransaction.services;
 
+import com.bankTransaction.data.model.Bvn;
 import com.bankTransaction.data.model.Nin;
 import com.bankTransaction.data.repositories.NinRepository;
 import com.bankTransaction.dto.request.NinRegistrationRequest;
-import com.bankTransaction.dto.request.VerifyNinRequest;
 import com.bankTransaction.dto.response.NinRegistrationResponse;
 import com.bankTransaction.exception.InvalidExceptiion;
 import com.bankTransaction.exception.NinNotFoundException;
@@ -36,11 +36,11 @@ public class NinServiceImplementation implements NinService{
     }
 
     @Override
-    public boolean verifyNinMatchesBvn(VerifyNinRequest request) {
-        Nin ninRecord = getNinData(request.getNin());
+    public boolean verifyNinMatchesBvn(String nin, Bvn bvn) {
+        Nin ninRecord = getNinData(nin);
 
-        return ninRecord.getFirstName().equalsIgnoreCase(request.getBvn().getFirstName()) &&
-                ninRecord.getLastName().equalsIgnoreCase(request.getBvn().getLastName()) &&
-                ninRecord.getDateOfBirth().equals(request.getBvn().getDateOfBirth());
+        return ninRecord.getFirstName().equalsIgnoreCase(bvn.getFirstName()) &&
+                ninRecord.getLastName().equalsIgnoreCase(bvn.getLastName()) &&
+                ninRecord.getDateOfBirth().equals(bvn.getDateOfBirth());
     }
 }

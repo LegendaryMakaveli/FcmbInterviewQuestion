@@ -8,6 +8,9 @@ import com.bankTransaction.dto.response.BvnRegistrationResponse;
 import com.bankTransaction.dto.response.DoTransferResponse;
 import com.bankTransaction.dto.response.NinRegistrationResponse;
 import com.bankTransaction.dto.response.RegisterUserResponse;
+import org.jetbrains.annotations.UnknownNullability;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -18,17 +21,24 @@ import static com.bankTransaction.util.PasswordHarsh.hashPassword;
 
 public class mapper {
 
-    public static User mapToRegisterUser(RegisterUserRequest request){
+    public static User mapToRegisterUser(RegisterUserRequest request, Bvn data){
         User newUser = new User();
-        newUser.setFirstName(request.getFirstName().trim().toLowerCase());
-        newUser.setLastName(request.getLastName().trim().toLowerCase());
-        newUser.setAddress(request.getAddress().trim().toLowerCase());
-        newUser.setPhoneNumber(request.getPhoneNumber());
-        newUser.setEmail(request.getEmail().trim().toLowerCase());
+        newUser.setFirstName(data.getFirstName().trim().toLowerCase());
+        newUser.setLastName(data.getLastName().trim().toLowerCase());
+        newUser.setAddress(data.getAddress().trim().toLowerCase());
+        newUser.setPhoneNumber(request.getPhoneNumber() != null ? request.getPhoneNumber() : data.getPhoneNumber());
+        newUser.setEmail(request.getEmail() != null ? request.getEmail().trim().toLowerCase() : data.getEmail().trim().toLowerCase());
+        newUser.setBvn(request.getBvn());
+        newUser.setNin(request.getNin());
+        newUser.setGender(Gender.valueOf(data.getGender().name()));
+        newUser.setTransactionPin(hashPassword(request.getTransactionPin()));
         newUser.setRole(Role.CUSTOMER);
-        newUser.setAccountType(request.getAccountType());
+        newUser.setBalance(BigDecimal.ZERO);
+        newUser.setAccountType(AccountType.valueOf(request.getAccountType().name()));
         newUser.setPassword(hashPassword(request.getPassword()));
         newUser.setAccountNumber(uniqueAccountNumber());
+        newUser.setTransactionCount(0);
+
         return newUser;
     }
 

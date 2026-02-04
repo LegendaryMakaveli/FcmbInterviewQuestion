@@ -1,5 +1,6 @@
 package com.bankTransaction.services;
 
+import com.bankTransaction.data.model.Bvn;
 import com.bankTransaction.data.model.User;
 import com.bankTransaction.data.repositories.UserRepository;
 import com.bankTransaction.dto.request.LoginUserRequest;
@@ -8,10 +9,7 @@ import com.bankTransaction.dto.request.ChangePasswordRequest;
 import com.bankTransaction.dto.request.ResetPasswordRequest;
 import com.bankTransaction.dto.response.LoginUserResponse;
 import com.bankTransaction.dto.response.RegisterUserResponse;
-import com.bankTransaction.exception.InvalidAccountException;
-import com.bankTransaction.exception.InvalidExceptiion;
-import com.bankTransaction.exception.UserAlreadyExistException;
-import com.bankTransaction.exception.UserNotFoundException;
+import com.bankTransaction.exception.*;
 import com.bankTransaction.security.JwtService;
 import com.bankTransaction.util.mapper;
 import jakarta.transaction.Transactional;
@@ -31,13 +29,23 @@ public class AuthServiceImplementation implements AuthService {
     private UserRepository userRepository;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private BvnService bvnService;
+    @Autowired
+    private NinService ninService;
 
     @Override
     @Transactional
     public RegisterUserResponse registerUser(RegisterUserRequest request) {
         validateUserSignUp(request);
+        Bvn bvnData = bvnService.getBvnData(request.getBvn());
+        boolean ninMatches = ninService.verifyNinMatchesBvn(request.getNin(), bvnData);
+        if (!ninMatches) throw new NinMismatchException("NIN does not match BVN records. Names or DOB don't match.");
+        userRepository.findByBvn(request.getBvn()).ifPresent(user -> {throw new UserAlreadyExistException("User already exists");});
+        userRepository.findByNin(request.getNin()).ifPresent(user -> {throw new UserAlreadyExistException("User already exists");});
         userRepository.findByEmail(request.getEmail()).ifPresent(user -> {throw new UserAlreadyExistException("User already exists");});
-        User user = mapper.mapToRegisterUser(request);
+
+        User user = mapper.mapToRegisterUser(request, bvnData);
         User savedUser = userRepository.save(user);
 
         return mapToRegisterUserResponse(savedUser);
