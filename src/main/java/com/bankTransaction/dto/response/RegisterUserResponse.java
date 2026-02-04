@@ -6,8 +6,9 @@ import lombok.Data;
 
 @Data
 public class RegisterUserResponse {
-    private String firstName;
-    private String lastName;
+    private String fullName;
+    private String address;
+    private String phoneNumber;
     private String email;
     private AccountType accountType;
     private String accountNumber;

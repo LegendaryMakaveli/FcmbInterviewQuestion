@@ -2,6 +2,7 @@ package com.bankTransaction.data.model;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 
@@ -9,9 +10,9 @@ import java.time.LocalDateTime;
 public class Transaction {
     private String id;
     private String transactionType;
-    private double transactionFees;
+    private BigDecimal transactionFees;
     private String senderAccountNumber;
     private String destinationAccountNumber;
-    private double amount;
+    private BigDecimal amount;
     private LocalDateTime dateOfTransaction;
 }
