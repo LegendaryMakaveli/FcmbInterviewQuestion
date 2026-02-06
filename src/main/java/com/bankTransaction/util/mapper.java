@@ -8,15 +8,11 @@ import com.bankTransaction.dto.response.BvnRegistrationResponse;
 import com.bankTransaction.dto.response.DoTransferResponse;
 import com.bankTransaction.dto.response.NinRegistrationResponse;
 import com.bankTransaction.dto.response.RegisterUserResponse;
-import org.jetbrains.annotations.UnknownNullability;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static com.bankTransaction.util.GenerateNin.uniqueNin;
-import static com.bankTransaction.util.UniqueAccountNumber.uniqueAccountNumber;
-import static com.bankTransaction.util.GenerateBvn.uniqueBvn;
 import static com.bankTransaction.util.PasswordHarsh.hashPassword;
 
 public class mapper {
@@ -30,13 +26,18 @@ public class mapper {
         newUser.setEmail(request.getEmail() != null ? request.getEmail().trim().toLowerCase() : data.getEmail().trim().toLowerCase());
         newUser.setBvn(request.getBvn());
         newUser.setNin(request.getNin());
-        newUser.setGender(Gender.valueOf(data.getGender().name()));
+        if (data.getGender() != null) {
+            String genderStr = data.getGender().name().toUpperCase();
+            newUser.setGender(Gender.valueOf(genderStr));
+        }
         newUser.setTransactionPin(hashPassword(request.getTransactionPin()));
         newUser.setRole(Role.CUSTOMER);
         newUser.setBalance(BigDecimal.ZERO);
-        newUser.setAccountType(AccountType.valueOf(request.getAccountType().name()));
+        if(request.getAccountType() != null){
+            String accountType = request.getAccountType().name().toUpperCase();
+            newUser.setAccountType(AccountType.valueOf(accountType));
+        }
         newUser.setPassword(hashPassword(request.getPassword()));
-        newUser.setAccountNumber(uniqueAccountNumber());
         newUser.setTransactionCount(0);
 
         return newUser;
@@ -46,6 +47,8 @@ public class mapper {
         RegisterUserResponse response = new RegisterUserResponse();
         response.setFullName(user.getFirstName().trim().toLowerCase() + " " + user.getLastName().trim().toLowerCase());
         response.setEmail(user.getEmail().trim().toLowerCase());
+        response.setAddress(user.getAddress().trim().toLowerCase());
+        response.setPhoneNumber(user.getPhoneNumber());
         response.setAccountType(user.getAccountType());
         response.setAccountNumber(user.getAccountNumber());
         response.setMessage("User registered successfully");
@@ -53,8 +56,7 @@ public class mapper {
         return response;
     }
 
-    public static Bvn mapToRegisterBvn(BvnRegistrationRequest request){
-        String bvn = uniqueBvn();
+    public static Bvn mapToRegisterBvn(BvnRegistrationRequest request, String bvn){
         Bvn record = new Bvn();
         record.setBvn(bvn);
         record.setFirstName(request.getFirstName().trim().toLowerCase());
@@ -63,7 +65,10 @@ public class mapper {
         record.setPhoneNumber(request.getPhoneNumber());
         record.setEmail(request.getEmail().trim().toLowerCase());
         record.setAddress(request.getAddress().trim().toLowerCase());
-        record.setGender(Gender.valueOf(request.getGender().name()));
+        if (request.getGender() != null) {
+            String genderStr = request.getGender().name().toUpperCase();
+            record.setGender(Gender.valueOf(genderStr));
+        }
 
         return record;
     }
@@ -77,16 +82,18 @@ public class mapper {
         return response;
     }
 
-    public static Nin mapToRegisterNinRequest(NinRegistrationRequest request){
-        String nin = uniqueNin();
-
+    public static Nin mapToRegisterNinRequest(NinRegistrationRequest request, String nin){
         Nin record = new Nin();
 
         record.setNin(nin);
+        record.setEmail(request.getEmail().trim().toLowerCase());
         record.setFirstName(request.getFirstName().trim().toLowerCase());
         record.setLastName(request.getLastName().trim().toLowerCase());
         record.setDateOfBirth(request.getDateOfBirth());
-        record.setGender(Gender.valueOf(request.getGender().name()));
+        if (request.getGender() != null) {
+            String genderStr = request.getGender().name().toUpperCase();
+            record.setGender(Gender.valueOf(genderStr));
+        }
 
         return record;
     }

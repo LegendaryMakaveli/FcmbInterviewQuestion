@@ -40,9 +40,12 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/bvn/**").permitAll()
-                        .requestMatchers("/nin/**").permitAll()
+                        .requestMatchers("/auth/register").permitAll()
+                        .requestMatchers("/auth/thisislogin").permitAll()
+                        .requestMatchers("/auth/yourcanchangepassword").authenticated()
+                        .requestMatchers("/auth/youcanreset").permitAll()
+                        .requestMatchers("/bvn/registerforbvn").permitAll()
+                        .requestMatchers("/nin/registerfornin").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);

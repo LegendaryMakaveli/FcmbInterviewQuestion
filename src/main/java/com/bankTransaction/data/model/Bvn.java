@@ -33,6 +33,7 @@ public class Bvn {
     private String address;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Column(nullable = false)

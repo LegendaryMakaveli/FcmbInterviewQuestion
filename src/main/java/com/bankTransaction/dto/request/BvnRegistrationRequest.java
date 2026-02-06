@@ -2,6 +2,7 @@ package com.bankTransaction.dto.request;
 
 import com.bankTransaction.data.model.Gender;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 
@@ -25,6 +26,6 @@ public class BvnRegistrationRequest {
     @NotBlank(message = "Address is required")
     private String address;
 
-    @NotBlank(message = "Gender is required")
+    @NotNull(message = "Gender is required")
     private Gender gender;
 }
