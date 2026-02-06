@@ -5,6 +5,7 @@ import com.bankTransaction.exception.InvalidExceptiion;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 public enum TransactionType {
+    DEPOSIT,
     TRANSFER,
     AIRTIME;
 

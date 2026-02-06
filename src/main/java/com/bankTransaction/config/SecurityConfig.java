@@ -46,6 +46,11 @@ public class SecurityConfig {
                         .requestMatchers("/auth/youcanreset").permitAll()
                         .requestMatchers("/bvn/registerforbvn").permitAll()
                         .requestMatchers("/nin/registerfornin").permitAll()
+                        .requestMatchers("/transactions/deposittoyouraccount").authenticated()
+                        .requestMatchers("/transactions/transfertoyourfriend").authenticated()
+                        .requestMatchers("/transactions/younurgolikebuyairtime").authenticated()
+                        .requestMatchers("/transactions/getyourtransactionstatement").permitAll()
+                        .requestMatchers("/transactions/getrecenttransaction").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);

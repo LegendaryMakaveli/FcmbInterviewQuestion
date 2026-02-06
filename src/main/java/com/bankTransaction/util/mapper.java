@@ -4,10 +4,7 @@ import com.bankTransaction.data.model.*;
 import com.bankTransaction.dto.request.BvnRegistrationRequest;
 import com.bankTransaction.dto.request.NinRegistrationRequest;
 import com.bankTransaction.dto.request.RegisterUserRequest;
-import com.bankTransaction.dto.response.BvnRegistrationResponse;
-import com.bankTransaction.dto.response.DoTransferResponse;
-import com.bankTransaction.dto.response.NinRegistrationResponse;
-import com.bankTransaction.dto.response.RegisterUserResponse;
+import com.bankTransaction.dto.response.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
