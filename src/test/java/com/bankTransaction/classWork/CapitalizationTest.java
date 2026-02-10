@@ -8,5 +8,8 @@ class CapitalizationTest {
 
     @Test
     void capitalize() {
+        String sentence = "this is a sentence";
+        String expected = "This Is A Sentence";
+        assertEquals(expected, Capitalization.capitalize(sentence));
     }
 }

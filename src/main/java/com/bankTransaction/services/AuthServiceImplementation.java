@@ -9,6 +9,7 @@ import com.bankTransaction.dto.request.ChangePasswordRequest;
 import com.bankTransaction.dto.request.ResetPasswordRequest;
 import com.bankTransaction.dto.response.LoginUserResponse;
 import com.bankTransaction.dto.response.RegisterUserResponse;
+import com.bankTransaction.dto.response.UserProfileResponse;
 import com.bankTransaction.exception.*;
 import com.bankTransaction.security.JwtService;
 import com.bankTransaction.util.UniqueAccountNumber;
@@ -70,6 +71,11 @@ public class AuthServiceImplementation implements AuthService {
                .role(user.getRole().name())
                .userId(user.getId())
                .email(user.getEmail())
+               .accountNumber(user.getAccountNumber())
+               .firstName(user.getFirstName())
+               .lastName(user.getLastName())
+               .balance(user.getBalance())
+               .accountType(user.getAccountType())
                .build();
     }
 
@@ -97,5 +103,23 @@ public class AuthServiceImplementation implements AuthService {
         return "Password reset successfully";
     }
 
+    @Override
+    public UserProfileResponse getUserProfile(String accountNumber) {
+        if(accountNumber == null || accountNumber.trim().isEmpty()) throw new InvalidExceptiion("Account number is required");
+        User user = userRepository.findByAccountNumber(accountNumber).orElseThrow(() -> new UserNotFoundException("User not found"));
+        
+        return UserProfileResponse.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .phoneNumber(user.getPhoneNumber())
+                .address(user.getAddress())
+                .bvn(user.getBvn())
+                .nin(user.getNin())
+                .accountNumber(user.getAccountNumber())
+                .accountType(user.getAccountType())
+                .balance(user.getBalance())
+                .build();
+    }
 
 }

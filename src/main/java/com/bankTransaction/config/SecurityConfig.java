@@ -40,17 +40,17 @@ public class SecurityConfig {
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Public endpoints - no token needed
                         .requestMatchers("/auth/register").permitAll()
                         .requestMatchers("/auth/thisislogin").permitAll()
-                        .requestMatchers("/auth/yourcanchangepassword").authenticated()
+                        .requestMatchers("/auth/yourcanchangepassword").permitAll()
                         .requestMatchers("/auth/youcanreset").permitAll()
                         .requestMatchers("/bvn/registerforbvn").permitAll()
+                        .requestMatchers("/bvn/**").permitAll()
                         .requestMatchers("/nin/registerfornin").permitAll()
-                        .requestMatchers("/transactions/deposittoyouraccount").authenticated()
-                        .requestMatchers("/transactions/transfertoyourfriend").authenticated()
-                        .requestMatchers("/transactions/younurgolikebuyairtime").authenticated()
-                        .requestMatchers("/transactions/getyourtransactionstatement").permitAll()
-                        .requestMatchers("/transactions/getrecenttransaction").permitAll()
+                        // Protected endpoints - token required
+                        .requestMatchers("/auth/getuserprofile").authenticated()
+                        .requestMatchers("/transactions/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class);

@@ -48,6 +48,7 @@ public class mapper {
         response.setPhoneNumber(user.getPhoneNumber());
         response.setAccountType(user.getAccountType());
         response.setAccountNumber(user.getAccountNumber());
+        response.setBalance(user.getBalance());
         response.setMessage("User registered successfully");
         response.setDateOfRegistration(DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm ss").format(LocalDateTime.now()));
         return response;
@@ -101,14 +102,6 @@ public class mapper {
         response.setFirstName(record.getFirstName());
         response.setLastName(record.getLastName());
         response.setMessage("NIN generated successfully");
-
-        return response;
-    }
-
-    public static DoTransferResponse mapToTransferResponse(){
-        DoTransferResponse response = new DoTransferResponse();
-        response.setMessage("Transfer successful");
-        response.setDateOfTransaction(DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm ss").format(LocalDateTime.now()));
 
         return response;
     }

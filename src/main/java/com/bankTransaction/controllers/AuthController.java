@@ -12,10 +12,7 @@ import com.bankTransaction.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -60,6 +57,17 @@ public class AuthController {
     public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest request){
         try{
             return new ResponseEntity<>(new ApiResponses(true, authService.resetPassword(request)), HttpStatus.OK);
+        }catch (InvalidExceptiion error){
+            return new ResponseEntity<>(new ApiResponses(false, error.getMessage()), HttpStatus.BAD_REQUEST);
+        }catch (BankTransactionException error){
+            return new ResponseEntity<>(new ApiResponses(false, error.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getuserprofile")
+    public ResponseEntity<?> getUserProfile(@RequestParam String accountNumber){
+        try{
+            return new ResponseEntity<>(new ApiResponses(true, authService.getUserProfile(accountNumber)), HttpStatus.OK);
         }catch (InvalidExceptiion error){
             return new ResponseEntity<>(new ApiResponses(false, error.getMessage()), HttpStatus.BAD_REQUEST);
         }catch (BankTransactionException error){

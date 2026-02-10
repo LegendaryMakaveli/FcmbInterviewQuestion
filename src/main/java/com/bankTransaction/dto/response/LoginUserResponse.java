@@ -4,6 +4,8 @@ package com.bankTransaction.dto.response;
 import lombok.Builder;
 import lombok.Data;
 
+import com.bankTransaction.data.model.AccountType;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Builder
@@ -15,4 +17,9 @@ public class LoginUserResponse {
     private LocalDateTime dateOfLogin;
     private String role;
     private Long userId;
+    private String accountNumber;
+    private String firstName;
+    private String lastName;
+    private BigDecimal balance;
+    private AccountType accountType;
 }

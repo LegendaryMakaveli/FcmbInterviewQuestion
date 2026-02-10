@@ -27,25 +27,22 @@ public class Validations {
     public static void validateBvnRegistrationInput(BvnRegistrationRequest request) {
         String namePattern = "^[A-Za-z]{2,}$";
         String emailPattern = "^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$";
-        String phoneNumberPattern = "^(?:\\+234|234|0)[789][01]\\d{11}$";
-        String dateOfBirthPattern = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/(19|20)\\d\\d$";
 
+
+        if(request.getPhoneNumber() == null || request.getPhoneNumber().trim().isEmpty()) throw new InvalidExceptiion("Phone number cannot be empty");
+        if(request.getDateOfBirth() == null || request.getDateOfBirth().trim().isEmpty()) throw new InvalidExceptiion("Date of birth cannot be empty");
         if(!request.getFirstName().matches(namePattern)) throw new InvalidExceptiion("Invalid first name");
         if(!request.getLastName().matches(namePattern)) throw new InvalidExceptiion("Invalid last name");
         if(!request.getEmail().matches(emailPattern)) throw new InvalidExceptiion("Invalid email");
-        if(!request.getPhoneNumber().matches(phoneNumberPattern)) throw new InvalidExceptiion("Invalid phone number");
-        if(!request.getDateOfBirth().matches(dateOfBirthPattern)) throw new InvalidExceptiion("Invalid date of birth");
     }
 
     public static void validateNinRegistrationInput(NinRegistrationRequest request) {
         String namePattern = "^[A-Za-z]{2,}$";
         String emailPattern = "^[A-Za-z0-9._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$";
-        String dateOfBirthPath = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/(19|20)\\d\\d$";
 
         if(!request.getFirstName().matches(namePattern)) throw new InvalidExceptiion("Invalid first name");
         if(!request.getLastName().matches(namePattern)) throw new InvalidExceptiion("Invalid last name");
         if(!request.getEmail().matches(emailPattern)) throw new InvalidExceptiion("Invalid email");
-        if(!request.getDateOfBirth().matches(dateOfBirthPath)) throw new InvalidExceptiion("Invalid date of birth");
     }
 
 }

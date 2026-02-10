@@ -6,10 +6,12 @@ import com.bankTransaction.dto.request.ChangePasswordRequest;
 import com.bankTransaction.dto.request.ResetPasswordRequest;
 import com.bankTransaction.dto.response.LoginUserResponse;
 import com.bankTransaction.dto.response.RegisterUserResponse;
+import com.bankTransaction.dto.response.UserProfileResponse;
 
 public interface AuthService {
     RegisterUserResponse registerUser(RegisterUserRequest registerUserRequest);
     LoginUserResponse login(LoginUserRequest request);
     String changePassword(ChangePasswordRequest request);
     String resetPassword(ResetPasswordRequest newPassword);
+    UserProfileResponse getUserProfile(String accountNumber);
 }

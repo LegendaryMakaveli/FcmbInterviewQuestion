@@ -15,5 +15,5 @@ public class RegisterUserRequest {
     private String email;
     private AccountType accountType;
     private String password;
-    private String TransactionPin;
+    private String transactionPin;
 }
